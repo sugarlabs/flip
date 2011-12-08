@@ -1,0 +1,8 @@
+[Activity]
+name = Flip
+activity_version = 1
+license = GPLv3
+bundle_id = org.sugarlabs.FlipActivity
+exec = sugar-activity FlipActivity.FlipActivity
+icon = activity-flip
+show_launcher = yes
