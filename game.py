@@ -62,7 +62,8 @@ class Game():
         self._dot_size = int(DOT_SIZE * self._scale)
         self._space = int(self._dot_size / 5.)
         self.we_are_sharing = False
-        self.edge = 4
+        self._edge = 4
+        self._move_list = []
 
         # Generate the sprites we'll need...
         self._sprites = Sprites(self._canvas)
@@ -72,10 +73,10 @@ class Game():
     def _generate_grid(self):
         ''' Make a new set of dots for a grid of size edge '''
         i = 0
-        for y in range(self.edge):
-            for x in range(self.edge):
-                xoffset = int((self._width - self.edge * self._dot_size - \
-                                   (self.edge - 1) * self._space) / 2.)
+        for y in range(self._edge):
+            for x in range(self._edge):
+                xoffset = int((self._width - self._edge * self._dot_size - \
+                                   (self._edge - 1) * self._space) / 2.)
                 if i < len(self._dots):
                     self._dots[i].move(
                         (xoffset + x * (self._dot_size + self._space),
@@ -94,8 +95,8 @@ class Game():
 
     def _all_clear(self):
         ''' Things to reinitialize when starting up a new game. '''
-        self._press = None
-        self.saw_game_over = False
+
+        self._move_list = []
 
         # Clear dots
         for dot in self._dots:
@@ -107,8 +108,8 @@ class Game():
 
     def more_dots(self):
         ''' Enlarge the grid '''
-        if self.edge < MAX:
-            self.edge += 1
+        if self._edge < MAX:
+            self._edge += 1
         self._generate_grid()
         self.new_game()
 
@@ -119,31 +120,33 @@ class Game():
 
         # Fill in a few dots to start
         for i in range(MAX):
-            self._flip_them(int(uniform(0, self.edge * self.edge)))
+            self._flip_them(int(uniform(0, self._edge * self._edge)))
 
         if self.we_are_sharing:
             _logger.debug('sending a new game')
             self._parent.send_new_game()
 
-    def restore_game(self, dot_list):
+    def restore_game(self, dot_list, move_list):
         ''' Restore a game from the Journal or share '''
         edge = int(sqrt(len(dot_list)))
         if edge > MAX:
             edge = MAX
-        while self.edge < edge:
+        while self._edge < edge:
             self.more_dots()
         for i, dot in enumerate(dot_list):
             self._dots[i].type = dot
             self._dots[i].set_shape(self._new_dot(
                     self._colors[self._dots[i].type]))
+        if move_list is not None:
+            self._move_list = move_list[:]
 
     def save_game(self):
-        ''' Return dot list for saving to Journal or
+        ''' Return dot list, move_list for saving to Journal or
         sharing '''
         dot_list = []
         for dot in self._dots:
             dot_list.append(dot.type)
-        return dot_list
+        return (dot_list, self._move_list)
 
     def _set_label(self, string):
         ''' Set the label in the toolbar or the window frame. '''
@@ -166,18 +169,27 @@ class Game():
                 self._parent.send_dot_click(self._dots.index(spr))
         return True
 
-    def _flip_them(self, dot):
+    def solve(self):
+        ''' Solve the puzzle by undoing moves '''
+        if self._move_list == []:
+            return
+        self._flip_them(self._move_list.pop(), append=False)
+        gobject.timeout_add(750, self.solve)
+
+    def _flip_them(self, dot, append=True):
         ''' flip the dot and its neighbors '''
+        if append:
+            self._move_list.append(dot)
         x, y = self._dot_to_grid(dot)
         self._flip(self._dots[dot])
         if x > 0:
             self._flip(self._dots[dot - 1])
         if y > 0:
-            self._flip(self._dots[dot - self.edge])
-        if x < self.edge - 1:
+            self._flip(self._dots[dot - self._edge])
+        if x < self._edge - 1:
             self._flip(self._dots[dot + 1])
-        if y < self.edge - 1:
-            self._flip(self._dots[dot + self.edge])
+        if y < self._edge - 1:
+            self._flip(self._dots[dot + self._edge])
 
     def _flip(self, spr):
         ''' flip a dot '''
@@ -197,9 +209,9 @@ class Game():
     def _test_game_over(self):
         ''' Check to see if game is over: all dots the same color '''
         match = self._dots[0].type
-        for y in range(self.edge):
-            for x in range(self.edge):
-                if self._dots[y * self.edge + x].type != match:
+        for y in range(self._edge):
+            for x in range(self._edge):
+                if self._dots[y * self._edge + x].type != match:
                     self._set_label(_('keep trying'))
                     return False
         self._set_label(_('good work'))
@@ -208,16 +220,15 @@ class Game():
 
     def _grid_to_dot(self, pos):
         ''' calculate the dot index from a column and row in the grid '''
-        return pos[0] + pos[1] * self.edge
+        return pos[0] + pos[1] * self._edge
 
     def _dot_to_grid(self, dot):
         ''' calculate the grid column and row for a dot '''
-        return [dot % self.edge, int(dot / self.edge)]
+        return [dot % self._edge, int(dot / self._edge)]
 
     def game_over(self, msg=_('Game over')):
         ''' Nothing left to do except show the results. '''
         self._set_label(msg)
-        self.saw_game_over = True
 
     def _expose_cb(self, win, event):
         self.do_expose_event(event)

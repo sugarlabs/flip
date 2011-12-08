@@ -119,6 +119,11 @@ class FlipActivity(activity.Activity):
         if _have_toolbox:
             separator_factory(toolbox.toolbar, True, False)
 
+        self.solver = button_factory(
+            'help-toolbar', self.toolbar,
+            self._solve_cb,
+            tooltip=_('Solve the puzzle'))
+
         if _have_toolbox:
             stop_button = StopButton(self)
             stop_button.props.accelerator = '<Ctrl>q'
@@ -129,14 +134,24 @@ class FlipActivity(activity.Activity):
         ''' Start a new game. '''
         self._game.new_game()
 
+    def _solve_cb(self, button=None):
+        ''' Solve the puzzle '''
+        self._game.solve()
+
     def write_file(self, file_path):
         """ Write the grid status to the Journal """
-        dot_list = self._game.save_game()
+        (dot_list, move_list) = self._game.save_game()
         self.metadata['dotlist'] = ''
         for dot in dot_list:
             self.metadata['dotlist'] += str(dot)
             if dot_list.index(dot) < len(dot_list) - 1:
                 self.metadata['dotlist'] += ' '
+        self.metadata['movelist'] = ''
+        for move in move_list:
+            self.metadata['movelist'] += str(move)
+            if move_list.index(move) < len(move_list) - 1:
+                self.metadata['movelist'] += ' '
+        _logger.debug(self.metadata['movelist'])
 
     def _restore(self):
         """ Restore the game state from metadata """
@@ -144,7 +159,15 @@ class FlipActivity(activity.Activity):
         dots = self.metadata['dotlist'].split()
         for dot in dots:
             dot_list.append(int(dot))
-        self._game.restore_game(dot_list)
+        if 'movelist' in self.metadata:
+            move_list = []
+            moves = self.metadata['movelist'].split()
+            for move in moves:
+                move_list.append(int(move))
+        else:
+            move_list = None
+        _logger.debug(move_list)
+        self._game.restore_game(dot_list, move_list)
 
     # Collaboration-related methods
 
@@ -245,8 +268,8 @@ params=%r state=%d' % (id, initiator, type, service, params, state))
 
     def _receive_new_game(self, payload):
         ''' Sharer can start a new game. '''
-        dot_list = json_load(payload)
-        self._game.restore_game(dot_list)
+        (dot_list, move_list) = json_load(payload)
+        self._game.restore_game(dot_list, move_list)
 
     def send_dot_click(self, dot):
         ''' Send a dot click to all the players '''
