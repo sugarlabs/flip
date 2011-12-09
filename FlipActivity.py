@@ -39,7 +39,7 @@ from gettext import gettext as _
 from game import Game
 
 import logging
-_logger = logging.getLogger('reflection-activity')
+_logger = logging.getLogger('flip-activity')
 
 
 SERVICE = 'org.sugarlabs.FlipActivity'
