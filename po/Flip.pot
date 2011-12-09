@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-12-08 16:38-0500\n"
+"POT-Creation-Date: 2011-12-08 19:03-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,15 +21,15 @@ msgstr ""
 msgid "Flip"
 msgstr ""
 
-#: game.py:203
+#: game.py:215
 msgid "keep trying"
 msgstr ""
 
-#: game.py:205
+#: game.py:217
 msgid "good work"
 msgstr ""
 
-#: game.py:217
+#: game.py:229
 msgid "Game over"
 msgstr ""
 
@@ -39,4 +39,8 @@ msgstr ""
 
 #: FlipActivity.py:115
 msgid "Start a game."
+msgstr ""
+
+#: FlipActivity.py:125
+msgid "Solve the puzzle"
 msgstr ""
