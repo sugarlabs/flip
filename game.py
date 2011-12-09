@@ -119,7 +119,7 @@ class Game():
         self._all_clear()
 
         # Fill in a few dots to start
-        for i in range(MAX):
+        for i in range(MAX * 2):
             self._flip_them(int(uniform(0, self._edge * self._edge)))
 
         if self.we_are_sharing:
