@@ -88,6 +88,7 @@ class Game():
                                y * (self._dot_size + self._space),
                                self._new_dot(self._colors[0])))
                 self._dots[i].type = 0
+                self._dots[-1].set_label_attributes(40)
                 i += 1
 
         # and initialize a few variables we'll need.
@@ -102,6 +103,7 @@ class Game():
         for dot in self._dots:
             dot.type = 0
             dot.set_shape(self._new_dot(self._colors[0]))
+            dot.set_label('')
 
     def _initiating(self):
         return self._activity.initiating
@@ -206,6 +208,10 @@ class Game():
         _logger.debug('enabling sharing')
         self.we_are_sharing = share
 
+    def _smile(self):
+        for dot in self._dots:
+            dot.set_label(':)')
+
     def _test_game_over(self):
         ''' Check to see if game is over: all dots the same color '''
         match = self._dots[0].type
@@ -215,6 +221,7 @@ class Game():
                     self._set_label(_('keep trying'))
                     return False
         self._set_label(_('good work'))
+        self._smile()
         gobject.timeout_add(2000, self.more_dots)
         return True
 
