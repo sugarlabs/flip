@@ -1,0 +1,46 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-12-08 19:03-0500\n"
+"PO-Revision-Date: 2012-01-23 21:41+0200\n"
+"Last-Translator: anush.mkrtchyan <anush.mkrtchyan@ca1492.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: hy\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Pootle 2.0.5\n"
+
+#: activity/activity.info:2
+msgid "Flip"
+msgstr "Շրջել"
+
+#: game.py:215
+msgid "keep trying"
+msgstr "շարուանկիր փորձել"
+
+#: game.py:217
+msgid "good work"
+msgstr "լավ աշխատանք է"
+
+#: game.py:229
+msgid "Game over"
+msgstr "Խաղն ավարտվեց"
+
+#: FlipActivity.py:108
+msgid "Game"
+msgstr "Խաղ"
+
+#: FlipActivity.py:115
+msgid "Start a game."
+msgstr "Սկսել նոր խաղ."
+
+#: FlipActivity.py:125
+msgid "Solve the puzzle"
+msgstr "Լուծիր գլուխկոտրուկը"
