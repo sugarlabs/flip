@@ -1,0 +1,46 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-12-08 19:03-0500\n"
+"PO-Revision-Date: 2012-01-30 06:48+0200\n"
+"Last-Translator: lite <litekok@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Pootle 2.0.5\n"
+
+#: activity/activity.info:2
+msgid "Flip"
+msgstr "翻硬币"
+
+#: game.py:215
+msgid "keep trying"
+msgstr "继续试试"
+
+#: game.py:217
+msgid "good work"
+msgstr "做得好"
+
+#: game.py:229
+msgid "Game over"
+msgstr "游戏结束"
+
+#: FlipActivity.py:108
+msgid "Game"
+msgstr "游戏"
+
+#: FlipActivity.py:115
+msgid "Start a game."
+msgstr "开始新游戏。"
+
+#: FlipActivity.py:125
+msgid "Solve the puzzle"
+msgstr "解谜"
