@@ -7,40 +7,40 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-12-08 19:03-0500\n"
-"PO-Revision-Date: 2012-06-29 22:36+0200\n"
+"PO-Revision-Date: 2012-08-15 09:19+0200\n"
 "Last-Translator: Chris <cjl@laptop.org>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language-Team: OLPC France <contact@olpc-france.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Pootle 2.0.5\n"
 
 #: activity/activity.info:2
 msgid "Flip"
-msgstr "Hoď"
+msgstr "Flip"
 
 #: game.py:215
 msgid "keep trying"
-msgstr "zkoušet dál"
+msgstr "essaie encore"
 
 #: game.py:217
 msgid "good work"
-msgstr "dobrá práce"
+msgstr "beau travail"
 
 #: game.py:229
 msgid "Game over"
-msgstr "Konec hry"
+msgstr "Partie terminée"
 
 #: FlipActivity.py:108
 msgid "Game"
-msgstr "Hra"
+msgstr "Partie"
 
 #: FlipActivity.py:115
 msgid "Start a game."
-msgstr "Spustit hru."
+msgstr "Démarrer une partie."
 
 #: FlipActivity.py:125
 msgid "Solve the puzzle"
-msgstr "Vyřešit hádanku"
+msgstr "Résoudre le problème"
