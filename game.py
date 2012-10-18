@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 #Copyright (c) 2011 Walter Bender
+# Ported to GTK3:
+# Ignacio Rodríguez <ignaciorodriguez@sugarlabs.org> 2012!
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -10,10 +12,8 @@
 # along with this library; if not, write to the Free Software
 # Foundation, 51 Franklin Street, Suite 500 Boston, MA 02110-1335 USA
 
-
-import gtk
+from gi.repository import Gdk, GdkPixbuf, Gtk, GObject
 import cairo
-import gobject
 
 from math import sqrt
 from random import uniform
@@ -24,7 +24,7 @@ import logging
 _logger = logging.getLogger('reflection-activity')
 
 try:
-    from sugar.graphics import style
+    from sugar3.graphics import style
     GRID_CELL_SIZE = style.GRID_CELL_SIZE
 except ImportError:
     GRID_CELL_SIZE = 0
@@ -51,13 +51,13 @@ class Game():
             parent.show_all()
             self._parent = parent
 
-        self._canvas.set_flags(gtk.CAN_FOCUS)
-        self._canvas.add_events(gtk.gdk.BUTTON_PRESS_MASK)
-        self._canvas.connect("expose-event", self._expose_cb)
+
+        self._canvas.add_events(Gdk.EventMask.BUTTON_PRESS_MASK)
+        self._canvas.connect("draw", self.__draw_cb)
         self._canvas.connect("button-press-event", self._button_press_cb)
 
-        self._width = gtk.gdk.screen_width()
-        self._height = gtk.gdk.screen_height() - (GRID_CELL_SIZE * 1.5)
+        self._width = Gdk.Screen.width()
+        self._height = Gdk.Screen.height() - (GRID_CELL_SIZE * 1.5)
         self._scale = self._width / (10 * DOT_SIZE * 1.2)
         self._dot_size = int(DOT_SIZE * self._scale)
         self._space = int(self._dot_size / 5.)
@@ -158,7 +158,7 @@ class Game():
         win.grab_focus()
         x, y = map(int, event.get_coords())
 
-        spr = self._sprites.find_sprite((x, y), inverse=True)
+        spr = self._sprites.find_sprite((x, y))
         if spr == None:
             return
 
@@ -176,7 +176,7 @@ class Game():
         if self._move_list == []:
             return
         self._flip_them(self._move_list.pop(), append=False)
-        gobject.timeout_add(750, self.solve)
+        GObject.timeout_add(750, self.solve)
 
     def _flip_them(self, dot, append=True):
         ''' flip the dot and its neighbors '''
@@ -222,7 +222,7 @@ class Game():
                     return False
         self._set_label(_('good work'))
         self._smile()
-        gobject.timeout_add(2000, self.more_dots)
+        GObject.timeout_add(2000, self.more_dots)
         return True
 
     def _grid_to_dot(self, pos):
@@ -237,8 +237,8 @@ class Game():
         ''' Nothing left to do except show the results. '''
         self._set_label(msg)
 
-    def _expose_cb(self, win, event):
-        self.do_expose_event(event)
+    def __draw_cb(self, canvas, cr):
+        self._sprites.redraw_sprites(cr=cr)
 
     def do_expose_event(self, event):
         ''' Handle the expose-event by drawing '''
@@ -251,7 +251,7 @@ class Game():
         self._sprites.redraw_sprites(cr=cr)
 
     def _destroy_cb(self, win, event):
-        gtk.main_quit()
+        Gtk.main_quit()
 
     def _new_dot(self, color):
         ''' generate a dot of a color color '''
@@ -270,8 +270,7 @@ class Game():
             surface = cairo.ImageSurface(cairo.FORMAT_ARGB32,
                                          self._svg_width, self._svg_height)
             context = cairo.Context(surface)
-            context = gtk.gdk.CairoContext(context)
-            context.set_source_pixbuf(pixbuf, 0, 0)
+            Gdk.cairo_set_source_pixbuf(context, pixbuf, 0, 0)
             context.rectangle(0, 0, self._svg_width, self._svg_height)
             context.fill()
             self._dot_cache[color] = surface
@@ -296,7 +295,7 @@ class Game():
 
 def svg_str_to_pixbuf(svg_string):
     """ Load pixbuf from SVG string """
-    pl = gtk.gdk.PixbufLoader('svg')
+    pl = GdkPixbuf.PixbufLoader.new_with_type('svg')
     pl.write(svg_string)
     pl.close()
     pixbuf = pl.get_pixbuf()

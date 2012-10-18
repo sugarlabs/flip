@@ -1,6 +1,6 @@
 [Activity]
 name = Flip
-activity_version = 3
+activity_version = 5
 license = GPLv3
 bundle_id = org.sugarlabs.FlipActivity
 exec = sugar-activity FlipActivity.FlipActivity

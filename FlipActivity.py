@@ -1,4 +1,7 @@
+# -*- coding: utf-8 -*-
 #Copyright (c) 2011 Walter Bender
+# Ported to GTK3: Ignacio Rodríguez
+# <ignaciorodriguez@sugarlabs.org>
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -9,20 +12,18 @@
 # along with this library; if not, write to the Free Software
 # Foundation, 51 Franklin Street, Suite 500 Boston, MA 02110-1335 USA
 
-
-import gtk
-
-from sugar.activity import activity
-from sugar import profile
+from gi.repository import Gtk, Gdk
+from sugar3.activity import activity
+from sugar3 import profile
 try:
-    from sugar.graphics.toolbarbox import ToolbarBox
+    from sugar3.graphics.toolbarbox import ToolbarBox
     _have_toolbox = True
 except ImportError:
     _have_toolbox = False
 
 if _have_toolbox:
-    from sugar.activity.widgets import ActivityToolbarButton
-    from sugar.activity.widgets import StopButton
+    from sugar3.activity.widgets import ActivityToolbarButton
+    from sugar3.activity.widgets import StopButton
 
 from toolbar_utils import button_factory, label_factory, separator_factory
 from utils import json_load, json_dump
@@ -31,8 +32,8 @@ import telepathy
 import dbus
 from dbus.service import signal
 from dbus.gobject_service import ExportedGObject
-from sugar.presence import presenceservice
-from sugar.presence.tubeconn import TubeConnection
+from sugar3.presence import presenceservice
+from sugar3.presence.tubeconn import TubeConnection
 
 from gettext import gettext as _
 
@@ -67,9 +68,9 @@ class FlipActivity(activity.Activity):
         self._setup_dispatch_table()
 
         # Create a canvas
-        canvas = gtk.DrawingArea()
-        canvas.set_size_request(gtk.gdk.screen_width(), \
-                                gtk.gdk.screen_height())
+        canvas = Gtk.DrawingArea()
+        canvas.set_size_request(Gdk.Screen.width(), \
+                                Gdk.Screen.height())
         self.set_canvas(canvas)
         canvas.show()
         self.show_all()
@@ -102,7 +103,7 @@ class FlipActivity(activity.Activity):
 
         else:
             # Use pre-0.86 toolbar design
-            games_toolbar = gtk.Toolbar()
+            games_toolbar = Gtk.Toolbar()
             toolbox = activity.ActivityToolbox(self)
             self.set_toolbox(toolbox)
             toolbox.add_toolbar(_('Game'), games_toolbar)
