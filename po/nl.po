@@ -6,41 +6,45 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-12-08 19:03-0500\n"
-"PO-Revision-Date: 2012-01-28 00:47+0200\n"
+"POT-Creation-Date: 2012-10-30 00:33-0400\n"
+"PO-Revision-Date: 2012-11-05 21:47+0200\n"
 "Last-Translator: whe <heppew@yahoo.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.0.5\n"
 
-#: activity/activity.info:2
+#. TRANS: "name" option from activity.info file
 msgid "Flip"
 msgstr "Flip"
 
-#: game.py:215
-msgid "keep trying"
-msgstr "blijf proberen"
+#. TRANS: "summary" option from activity.info file
+#. TRANS: "description" option from activity.info file
+msgid "a simple strategy game"
+msgstr "een simpel strategiespel"
 
-#: game.py:217
-msgid "good work"
-msgstr "goed werk"
-
-#: game.py:229
-msgid "Game over"
-msgstr "Spel klaar"
-
-#: FlipActivity.py:108
-msgid "Game"
-msgstr "Spel"
-
-#: FlipActivity.py:115
+#: FlipActivity.py:99
 msgid "Start a game."
 msgstr "Start een spel."
 
-#: FlipActivity.py:125
+#: FlipActivity.py:108
 msgid "Solve the puzzle"
 msgstr "Los een puzzel op"
+
+#: game.py:221
+msgid "keep trying"
+msgstr "blijf proberen"
+
+#: game.py:223
+msgid "good work"
+msgstr "goed werk"
+
+#: game.py:236
+msgid "Game over"
+msgstr "Spel klaar"
+
+#~ msgid "Game"
+#~ msgstr "Spel"
