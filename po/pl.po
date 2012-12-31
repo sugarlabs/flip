@@ -1,0 +1,48 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-10-30 00:33-0400\n"
+"PO-Revision-Date: 2012-12-25 04:31+0200\n"
+"Last-Translator: Kamila <kamilafilipowska@yahoo.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
+"X-Generator: Pootle 2.0.5\n"
+
+#. TRANS: "name" option from activity.info file
+msgid "Flip"
+msgstr ""
+
+#. TRANS: "summary" option from activity.info file
+#. TRANS: "description" option from activity.info file
+msgid "a simple strategy game"
+msgstr "prosta gra strategiczna"
+
+#: FlipActivity.py:99
+msgid "Start a game."
+msgstr "Rozpocznij grę."
+
+#: FlipActivity.py:108
+msgid "Solve the puzzle"
+msgstr "Ułóż puzzle"
+
+#: game.py:221
+msgid "keep trying"
+msgstr "próbuj dalej"
+
+#: game.py:223
+msgid "good work"
+msgstr "dobra robota"
+
+#: game.py:236
+msgid "Game over"
+msgstr "Koniec gry"
