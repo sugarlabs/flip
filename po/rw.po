@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-12-08 19:03-0500\n"
+"POT-Creation-Date: 2012-10-30 00:33-0400\n"
 "PO-Revision-Date: 2012-02-23 02:52+0200\n"
 "Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,30 +17,34 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1) ;\n"
 "X-Generator: Pootle 2.0.5\n"
 
-#: activity/activity.info:2
+#. TRANS: "name" option from activity.info file
 msgid "Flip"
 msgstr "Flip"
 
-#: game.py:215
-msgid "keep trying"
-msgstr "komeza ugerageze"
+#. TRANS: "summary" option from activity.info file
+#. TRANS: "description" option from activity.info file
+msgid "a simple strategy game"
+msgstr ""
 
-#: game.py:217
-msgid "good work"
-msgstr "akazi keza"
-
-#: game.py:229
-msgid "Game over"
-msgstr "Umukino urarangiye"
-
-#: FlipActivity.py:108
-msgid "Game"
-msgstr "Umukino"
-
-#: FlipActivity.py:115
+#: FlipActivity.py:99
 msgid "Start a game."
 msgstr "Tangira umukino."
 
-#: FlipActivity.py:125
+#: FlipActivity.py:108
 msgid "Solve the puzzle"
 msgstr ""
+
+#: game.py:221
+msgid "keep trying"
+msgstr "komeza ugerageze"
+
+#: game.py:223
+msgid "good work"
+msgstr "akazi keza"
+
+#: game.py:236
+msgid "Game over"
+msgstr "Umukino urarangiye"
+
+#~ msgid "Game"
+#~ msgstr "Umukino"
