@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#Copyright (c) 2011 Walter Bender
+#Copyright (c) 2011-13 Walter Bender
 # Ported to GTK3: Ignacio Rodríguez
 # <ignaciorodriguez@sugarlabs.org>
 
@@ -174,7 +174,7 @@ class FlipActivity(activity.Activity):
 
     def _new_tube_common(self, sharer):
         """ Joining and sharing are mostly the same... """
-        if self._shared_activity is None:
+        if self.get_shared_activity() is None:
             _logger.debug("Error: Failed to share or join activity ... \
                 _shared_activity is null in _shared_cb()")
             return
@@ -182,9 +182,9 @@ class FlipActivity(activity.Activity):
         self.initiating = sharer
         self.waiting_for_hand = not sharer
 
-        self.conn = self._shared_activity.telepathy_conn
-        self.tubes_chan = self._shared_activity.telepathy_tubes_chan
-        self.text_chan = self._shared_activity.telepathy_text_chan
+        self.conn = self.shared_activity.telepathy_conn
+        self.tubes_chan = self.shared_activity.telepathy_tubes_chan
+        self.text_chan = self.shared_activity.telepathy_text_chan
 
         self.tubes_chan[telepathy.CHANNEL_TYPE_TUBES].connect_to_signal(
             'NewTube', self._new_tube_cb)
