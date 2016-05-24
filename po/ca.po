@@ -1,0 +1,49 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>, 2016.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-10-30 00:33-0400\n"
+"PO-Revision-Date: 2016-04-27 08:54+0000\n"
+"Last-Translator: Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: ca\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 2.5.1.1\n"
+"X-POOTLE-MTIME: 1461747276.000000\n"
+
+#. TRANS: "name" option from activity.info file
+msgid "Flip"
+msgstr "Donar la volta"
+
+#. TRANS: "summary" option from activity.info file
+#. TRANS: "description" option from activity.info file
+msgid "a simple strategy game"
+msgstr "un joc senzill d'estratègia"
+
+#: FlipActivity.py:99
+msgid "Start a game."
+msgstr "Comença una partida."
+
+#: FlipActivity.py:108
+msgid "Solve the puzzle"
+msgstr "Resol el puzle"
+
+#: game.py:221
+msgid "keep trying"
+msgstr "continueu intentant-ho"
+
+#: game.py:223
+msgid "good work"
+msgstr "bona feina"
+
+#: game.py:236
+msgid "Game over"
+msgstr "Fi de la partida"
