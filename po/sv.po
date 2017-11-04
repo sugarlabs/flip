@@ -8,42 +8,42 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-30 00:33-0400\n"
-"PO-Revision-Date: 2017-10-17 06:31+0000\n"
-"Last-Translator: Chris <cjl@sugarlabs.org>\n"
+"PO-Revision-Date: 2017-03-28 23:41+0000\n"
+"Last-Translator: Anders <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: ibo\n"
+"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.1.1\n"
-"X-POOTLE-MTIME: 1508221905.000000\n"
+"X-POOTLE-MTIME: 1490744510.000000\n"
 
 #. TRANS: "name" option from activity.info file
 msgid "Flip"
-msgstr "Tụgharịa"
+msgstr "Vänd"
 
 #. TRANS: "summary" option from activity.info file
 #. TRANS: "description" option from activity.info file
 msgid "a simple strategy game"
-msgstr "a mfe atụmatụ egwuregwu"
+msgstr "ett enkelt strategispel"
 
 #: FlipActivity.py:99
 msgid "Start a game."
-msgstr "Malite egwuregwu."
+msgstr "Starta ett spel."
 
 #: FlipActivity.py:108
 msgid "Solve the puzzle"
-msgstr "Dozie mgbaghoju anya"
+msgstr "Lös pusslet"
 
 #: game.py:221
 msgid "keep trying"
-msgstr "ịnọgide na-agbalị"
+msgstr "försök igen"
 
 #: game.py:223
 msgid "good work"
-msgstr "ezi ọrụ"
+msgstr "bra jobbat"
 
 #: game.py:236
 msgid "Game over"
-msgstr "Ngwụcha egwuregwu"
+msgstr "Spelet är slut"

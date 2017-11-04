@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-30 00:33-0400\n"
-"PO-Revision-Date: 2016-04-09 18:46+0000\n"
-"Last-Translator: Anonymous Pootle User\n"
+"PO-Revision-Date: 2017-10-17 06:27+0000\n"
+"Last-Translator: Chris <cjl@sugarlabs.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.1.1\n"
-"X-POOTLE-MTIME: 1460227579.000000\n"
+"X-POOTLE-MTIME: 1508221669.000000\n"
 
 #. TRANS: "name" option from activity.info file
 msgid "Flip"
@@ -33,7 +33,7 @@ msgstr "Beginne ein Spiel."
 
 #: FlipActivity.py:108
 msgid "Solve the puzzle"
-msgstr "Löse die Aufgabe."
+msgstr "Löse die Aufgabe"
 
 #: game.py:221
 msgid "keep trying"
