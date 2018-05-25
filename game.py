@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#Copyright (c) 2011 Walter Bender
+# Copyright (c) 2011 Walter Bender
 # Ported to GTK3:
 # Ignacio Rodríguez <ignaciorodriguez@sugarlabs.org> 2012!
 
@@ -51,7 +51,6 @@ class Game():
             parent.show_all()
             self._parent = parent
 
-
         self._canvas.add_events(Gdk.EventMask.BUTTON_PRESS_MASK)
         self._canvas.connect("draw", self.__draw_cb)
         self._canvas.connect("button-press-event", self._button_press_cb)
@@ -75,8 +74,8 @@ class Game():
         i = 0
         for y in range(self._edge):
             for x in range(self._edge):
-                xoffset = int((self._width - self._edge * self._dot_size - \
-                                   (self._edge - 1) * self._space) / 2.)
+                xoffset = int((self._width - self._edge * self._dot_size -
+                               (self._edge - 1) * self._space) / 2.)
                 if i < len(self._dots):
                     self._dots[i].move(
                         (xoffset + x * (self._dot_size + self._space),
@@ -138,7 +137,7 @@ class Game():
         for i, dot in enumerate(dot_list):
             self._dots[i].type = dot
             self._dots[i].set_shape(self._new_dot(
-                    self._colors[self._dots[i].type]))
+                self._colors[self._dots[i].type]))
         if move_list is not None:
             self._move_list = move_list[:]
 
@@ -159,7 +158,7 @@ class Game():
         x, y = map(int, event.get_coords())
 
         spr = self._sprites.find_sprite((x, y))
-        if spr == None:
+        if spr is None:
             return
 
         if spr.type is not None:
@@ -245,7 +244,7 @@ class Game():
         # Restrict Cairo to the exposed area
         cr = self._canvas.window.cairo_create()
         cr.rectangle(event.area.x, event.area.y,
-                event.area.width, event.area.height)
+                     event.area.width, event.area.height)
         cr.clip()
         # Refresh sprite list
         self._sprites.redraw_sprites(cr=cr)
@@ -256,15 +255,15 @@ class Game():
     def _new_dot(self, color):
         ''' generate a dot of a color color '''
         self._dot_cache = {}
-        if not color in self._dot_cache:
+        if color not in self._dot_cache:
             self._stroke = color
             self._fill = color
             self._svg_width = self._dot_size
             self._svg_height = self._dot_size
             pixbuf = svg_str_to_pixbuf(
-                self._header() + \
+                self._header() +
                 self._circle(self._dot_size / 2., self._dot_size / 2.,
-                             self._dot_size / 2.) + \
+                             self._dot_size / 2.) +
                 self._footer())
 
             surface = cairo.ImageSurface(cairo.FORMAT_ARGB32,

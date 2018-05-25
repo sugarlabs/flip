@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#Copyright (c) 2011-13 Walter Bender
+# Copyright (c) 2011-13 Walter Bender
 # Ported to GTK3: Ignacio Rodríguez
 # <ignaciorodriguez@sugarlabs.org>
 
@@ -49,7 +49,7 @@ class FlipActivity(activity.Activity):
         """ Initialize the toolbars and the game board """
         try:
             super(FlipActivity, self).__init__(handle)
-        except dbus.exceptions.DBusException, e:
+        except dbus.exceptions.DBusException as e:
             _logger.error(str(e))
 
         self.nick = profile.get_nick_name()
@@ -63,7 +63,7 @@ class FlipActivity(activity.Activity):
 
         # Create a canvas
         canvas = Gtk.DrawingArea()
-        canvas.set_size_request(Gdk.Screen.width(), \
+        canvas.set_size_request(Gdk.Screen.width(),
                                 Gdk.Screen.height())
         self.set_canvas(canvas)
         canvas.show()
@@ -216,22 +216,22 @@ params=%r state=%d' % (id, initiator, type, service, params, state))
 
         if (type == telepathy.TUBE_TYPE_DBUS and service == SERVICE):
             if state == telepathy.TUBE_STATE_LOCAL_PENDING:
-                self.tubes_chan[ \
-                              telepathy.CHANNEL_TYPE_TUBES].AcceptDBusTube(id)
+                self.tubes_chan[
+                    telepathy.CHANNEL_TYPE_TUBES].AcceptDBusTube(id)
 
             tube_conn = TubeConnection(self.conn,
-                self.tubes_chan[telepathy.CHANNEL_TYPE_TUBES], id, \
-                group_iface=self.text_chan[telepathy.CHANNEL_INTERFACE_GROUP])
+                                       self.tubes_chan[telepathy.CHANNEL_TYPE_TUBES], id,
+                                       group_iface=self.text_chan[telepathy.CHANNEL_INTERFACE_GROUP])
 
-            self.chattube = ChatTube(tube_conn, self.initiating, \
-                self.event_received_cb)
+            self.chattube = ChatTube(tube_conn, self.initiating,
+                                     self.event_received_cb)
 
     def _setup_dispatch_table(self):
         ''' Associate tokens with commands. '''
         self._processing_methods = {
             'n': [self._receive_new_game, 'get a new game grid'],
             'p': [self._receive_dot_click, 'get a dot click'],
-            }
+        }
 
     def event_received_cb(self, event_message):
         ''' Data from a tube has arrived. '''
