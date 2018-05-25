@@ -1,4 +1,4 @@
-#Copyright (c) 2011 Walter Bender
+# Copyright (c) 2011 Walter Bender
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@ except (ImportError, AttributeError):
         import simplejson as json
         from simplejson import load as jload
         from simplejson import dump as jdump
-    except:
+    except BaseException:
         OLD_SUGAR_SYSTEM = True
 
 
