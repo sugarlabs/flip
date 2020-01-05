@@ -105,7 +105,7 @@ class Game():
             dot.set_label('')
 
     def _initiating(self):
-        return self._activity.initiating
+        return self._activity._collab.props.leader
 
     def more_dots(self):
         ''' Enlarge the grid '''
