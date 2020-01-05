@@ -2,7 +2,7 @@
 name = Flip
 activity_version = 9
 license = GPLv3+;MIT
-exec = sugar-activity FlipActivity.FlipActivity
+exec = sugar-activity3 FlipActivity.FlipActivity
 bundle_id = org.sugarlabs.FlipActivity
 icon = activity-flip
 show_launcher = yes

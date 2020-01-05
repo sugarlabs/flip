@@ -76,7 +76,13 @@ class FlipActivity(activity.Activity):
         self.show_all()
 
         self._game = Game(canvas, parent=self, colors=self.colors)
-        self._setup_presence_service()
+        self.connect('shared', self._shared_cb)
+        self.connect('joined', self._joined_cb)
+
+        self._collab = CollabWrapper(self)
+        self._collab.connect('message', self._message_cb)
+        self._collab.connect('joined', self._joined_cb)
+        self._collab.setup()
 
         if 'dotlist' in self.metadata:
             self._restore()
@@ -213,12 +219,12 @@ class FlipActivity(activity.Activity):
 
     def _list_tubes_error_cb(self, e):
         """ Log errors. """
-        _logger.debug('Error: ListTubes() failed: %s' % (e))
+        _logger.debug('Error: ListTubes() failed: {}'.format(e))
 
     def _new_tube_cb(self, id, initiator, type, service, params, state):
         """ Create a new tube. """
-        _logger.debug('New tube: ID=%d initator=%d type=%d service=%s \
-params=%r state=%d' % (id, initiator, type, service, params, state))
+        _logger.debug('New tube: ID={} initator={} type={} service={} \
+params={} state={}'.format(id, initiator, type, service, params, state))
 
         if (type == TelepathyGLib.TubeType.DBUS and service == SERVICE):
             if state == TelepathyGLib.TubeState.LOCAL_PENDING:
@@ -246,13 +252,14 @@ params=%r state=%d' % (id, initiator, type, service, params, state))
         try:
             command, payload = event_message.split('|', 2)
         except ValueError:
-            _logger.debug('Could not split event message %s' % (event_message))
+            _logger.debug(
+                'Could not split event message {}'.format(event_message))
             return
         self._processing_methods[command][0](payload)
 
     def send_new_game(self):
         ''' Send a new grid to all players '''
-        self.send_event('n|%s' % (json_dump(self._game.save_game())))
+        self.send_event('n|{}'.format(json_dump(self._game.save_game())))
 
     def _receive_new_game(self, payload):
         ''' Sharer can start a new game. '''
@@ -261,7 +268,7 @@ params=%r state=%d' % (id, initiator, type, service, params, state))
 
     def send_dot_click(self, dot):
         ''' Send a dot click to all the players '''
-        self.send_event('p|%s' % (json_dump(dot)))
+        self.send_event('p|{}'.format(json_dump(dot)))
 
     def _receive_dot_click(self, payload):
         ''' When a dot is clicked, everyone should change its color. '''

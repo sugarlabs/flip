@@ -143,7 +143,7 @@ class Sprites:
         else:
             self.cr = cr
         if cr is None:
-            print 'sprites.redraw_sprites: no Cairo context'
+            print('sprites.redraw_sprites: no Cairo context')
             return
         for spr in self.list:
             if area is None:
@@ -252,7 +252,7 @@ class Sprite:
     def set_label(self, new_label, i=0):
         ''' Set the label drawn on the sprite '''
         self._extend_labels_array(i)
-        if isinstance(new_label, str) or isinstance(new_label, unicode):
+        if isinstance(new_label, str):
             # pango doesn't like nulls
             self.labels[i] = new_label.replace("\0", " ")
         else:
@@ -330,7 +330,7 @@ class Sprite:
         if cr is None:
             cr = self._sprites.cr
         if cr is None:
-            print 'sprite.draw: no Cairo context.'
+            print('sprite.draw: no Cairo context.')
             return
         for i, img in enumerate(self.images):
             if isinstance(img, GdkPixbuf.Pixbuf):
@@ -351,7 +351,7 @@ class Sprite:
                              self.rect[3])
                 cr.fill()
             else:
-                print 'sprite.draw: source not a pixbuf (%s)' % (type(img))
+                print('sprite.draw: source not a pixbuf ({})'.format(type(img)))
         if len(self.labels) > 0:
             self.draw_label(cr)
 
@@ -379,13 +379,13 @@ class Sprite:
             pl.set_text(str(self.labels[i]), -1)
             self._fd.set_size(int(self._scale[i] * Pango.SCALE))
             pl.set_font_description(self._fd)
-            w = pl.get_size()[0] / Pango.SCALE
+            w = pl.get_size()[0] // Pango.SCALE
             if w > my_width:
                 if self._rescale[i]:
                     self._fd.set_size(
                         int(self._scale[i] * Pango.SCALE * my_width / w))
                     pl.set_font_description(self._fd)
-                    w = pl.get_size()[0] / Pango.SCALE
+                    w = pl.get_size()[0] // Pango.SCALE
                 else:
                     j = len(self.labels[i]) - 1
                     while(w > my_width and j > 0):
@@ -393,7 +393,7 @@ class Sprite:
                             "…" + self.labels[i][len(self.labels[i]) - j:], -1)
                         self._fd.set_size(int(self._scale[i] * Pango.SCALE))
                         pl.set_font_description(self._fd)
-                        w = pl.get_size()[0] / Pango.SCALE
+                        w = pl.get_size()[0] // Pango.SCALE
                         j -= 1
             if self._x_pos[i] is not None:
                 x = int(self.rect[0] + self._x_pos[i])
@@ -403,7 +403,7 @@ class Sprite:
                 x = int(self.rect[0] + self._margins[0])
             else:  # right
                 x = int(self.rect[0] + self.rect[2] - w - self._margins[2])
-            h = pl.get_size()[1] / Pango.SCALE
+            h = pl.get_size()[1] // Pango.SCALE
             if self._y_pos[i] is not None:
                 y = int(self.rect[1] + self._y_pos[i])
             elif self._vert_align[i] == "middle":
@@ -429,7 +429,7 @@ class Sprite:
             pl.set_text(str(self.labels[i]), -1)
             self._fd.set_size(int(self._scale[i] * Pango.SCALE))
             pl.set_font_description(self._fd)
-            w = pl.get_size()[0] / Pango.SCALE
+            w = pl.get_size()[0] // Pango.SCALE
             if w > max:
                 max = w
         return max
@@ -463,5 +463,5 @@ class Sprite:
             else:
                 return(-1, -1, -1, -1)
         except IndexError:
-            print "Index Error: %d %d" % (len(array), offset)
+            print("Index Error: {} {}".format(len(array), offset))
             return(-1, -1, -1, -1)
