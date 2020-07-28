@@ -2,21 +2,22 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-30 00:33-0400\n"
-"PO-Revision-Date: 2017-11-29 11:35+0000\n"
-"Last-Translator: valente <valente.luis@gmail.com>\n"
+"PO-Revision-Date: 2017-10-21 17:29+0000\n"
+"Last-Translator: Teuku Surya <tsuryafajri@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: pt\n"
+"Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.5.1.1\n"
-"X-POOTLE-MTIME: 1511955312.000000\n"
+"X-POOTLE-MTIME: 1508606977.000000\n"
 
 #. TRANS: "name" option from activity.info file
 msgid "Flip"
@@ -25,27 +26,24 @@ msgstr "Flip"
 #. TRANS: "summary" option from activity.info file
 #. TRANS: "description" option from activity.info file
 msgid "a simple strategy game"
-msgstr "um jogo simples de estratégia"
+msgstr "permainan strategi sederhana"
 
 #: FlipActivity.py:99
 msgid "Start a game."
-msgstr "Começa um jogo."
+msgstr "Mulai permainan"
 
 #: FlipActivity.py:108
 msgid "Solve the puzzle"
-msgstr "Resolve o puzzle"
+msgstr "Pecahkan teka teki"
 
 #: game.py:221
 msgid "keep trying"
-msgstr "continua a tentar"
+msgstr "teruslah berusaha"
 
 #: game.py:223
 msgid "good work"
-msgstr "bom trabalho"
+msgstr "kerja bagus"
 
 #: game.py:236
 msgid "Game over"
-msgstr "Fim de jogo"
-
-#~ msgid "Game"
-#~ msgstr "Jogo"
+msgstr "Permainan Berakhir"

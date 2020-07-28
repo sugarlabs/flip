@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-30 00:33-0400\n"
-"PO-Revision-Date: 2016-08-11 18:43+0000\n"
-"Last-Translator: Chris <cjl@sugarlabs.org>\n"
+"PO-Revision-Date: 2018-09-05 20:25+0000\n"
+"Last-Translator: Paulo Francisco <slomp@ufrgs.br>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.1.1\n"
-"X-POOTLE-MTIME: 1470941035.000000\n"
+"X-POOTLE-MTIME: 1536179153.000000\n"
 
 #. TRANS: "name" option from activity.info file
 msgid "Flip"
-msgstr "Giro"
+msgstr "Girar"
 
 #. TRANS: "summary" option from activity.info file
 #. TRANS: "description" option from activity.info file
@@ -34,7 +34,7 @@ msgstr "Iniciar jogo."
 
 #: FlipActivity.py:108
 msgid "Solve the puzzle"
-msgstr "Complete o quebra-cabeça"
+msgstr "Resolver o quebra-cabeça"
 
 #: game.py:221
 msgid "keep trying"
