@@ -1,5 +1,13 @@
 NEWS
 
+10
+* New translations (Robert Antoni, Chris Leonard et al)
+* Set PEP8 and fix flake 8 opportunities (Rahul Bothra)
+* Port Telepathy Static Binding to TelepathyGLib (Rahul Bothra)
+* Update COPYING file (Vipul Gupta)
+* Port to Python 3 (Kiy4)
+* Port to CollabWrapper (Kiy4h)
+
 9
 
 ENHANCEMENT
