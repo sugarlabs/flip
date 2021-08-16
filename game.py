@@ -17,7 +17,7 @@ import cairo
 
 from math import sqrt
 from random import uniform
-
+import time
 from gettext import gettext as _
 
 import logging
@@ -63,10 +63,14 @@ class Game():
         self.we_are_sharing = False
         self._edge = 4
         self._move_list = []
+        self.best_time = 0
 
         # Generate the sprites we'll need...
         self._sprites = Sprites(self._canvas)
         self._dots = []
+        self._gameover = []
+        self._your_time = []
+        self._best_time = []
         self._generate_grid()
 
     def _generate_grid(self):
@@ -99,10 +103,17 @@ class Game():
         self._move_list = []
 
         # Clear dots
+        for gameover_shape in self._gameover:
+            gameover_shape.hide()
+        for your_time_shape in self._your_time:
+            your_time_shape.hide()
+        for best_time_shape in self._best_time:
+            best_time_shape.hide()
         for dot in self._dots:
             dot.type = 0
             dot.set_shape(self._new_dot(self._colors[0]))
             dot.set_label('')
+            dot.set_layer(100)
 
     def _initiating(self):
         return self._activity._collab.props.leader
@@ -116,9 +127,8 @@ class Game():
 
     def new_game(self):
         ''' Start a new game. '''
-
         self._all_clear()
-
+        self.gameover_flag = False
         # Fill in a few dots to start
         for i in range(MAX * 2):
             self._flip_them(int(uniform(0, self._edge * self._edge)))
@@ -126,6 +136,8 @@ class Game():
         if self.we_are_sharing:
             _logger.debug('sending a new game')
             self._parent.send_new_game()
+
+        self.game_start_time = time.time()
 
     def restore_game(self, dot_list, move_list):
         ''' Restore a game from the Journal or share '''
@@ -148,6 +160,85 @@ class Game():
         for dot in self._dots:
             dot_list.append(dot.type)
         return (dot_list, self._move_list)
+
+    def gameover(self):
+
+        best_seconds = self.best_time % 60
+        best_minutes = self.best_time // 60
+        self.elapsed_time = int(self.game_stop_time - self.game_start_time)
+        # self.elapsed_time = 10
+        second = self.elapsed_time % 60
+        minute = self.elapsed_time // 60
+        for dot in self._dots:
+            dot.hide()
+        yoffset = int(self._space / 4.)
+        xoffset = int((self._width - 6 * self._dot_size -
+                       5 * self._space) / 2.)
+        y = 1
+        i = 0
+        for x in range(2, 6):
+            self._gameover.append(
+                Sprite(self._sprites,
+                       xoffset + (x - 0.25) * (self._dot_size - 10),
+                       y * (self._dot_size - 90 + self._space) + yoffset,
+                       self._new_dot(color=self._colors[0])))
+            self._gameover[-1].type = -1  # No image
+            self._gameover[-1].set_label_attributes(72)
+            i += 1
+        text = [
+            "☻",
+            "  Game  ",
+            "  Over  ",
+            "☻"
+        ]
+        self.rings(len(text), text, self._gameover)
+        y = 2
+        for x in range(2, 5):
+            self._your_time.append(
+                Sprite(self._sprites,
+                       xoffset + (x + 0.25) * (self._dot_size - 10),
+                       y * (self._dot_size - 30 + self._space) + yoffset,
+                       self._new_dot(color=self._colors[0])))
+            self._your_time[-1].type = -1  # No image
+            self._your_time[-1].set_label_attributes(72)
+        text = [
+            "  your  ",
+            " time:  ",
+            (' {:02d}:{:02d} '.format(minute, second))
+        ]
+        self.rings(len(text), text, self._your_time)
+        y = 3
+
+        for x in range(2, 5):
+            self._best_time.append(
+                Sprite(self._sprites,
+                       xoffset + (x + 0.25) * (self._dot_size - 10),
+                       y * (self._dot_size - 20 + self._space) + yoffset,
+                       self._new_dot(color=self._colors[0])))
+            self._best_time[-1].type = -1  # No image
+            self._best_time[-1].set_label_attributes(72)
+        if self.elapsed_time <= self.best_time and not self.game_lost:
+            self.best_time = self.elapsed_time
+            best_seconds = second
+            best_minutes = minute
+        text = [
+            "  best  ",
+            " time:  ",
+            (' {:02d}:{:02d} '.format(best_minutes, best_seconds))
+        ]
+        self.rings(len(text), text, self._best_time)
+        self._correct = 0
+        GObject.timeout_add(3000, self.more_dots)
+
+    def rings(self, num, text, shape):
+        i = 0
+        for x in range(num):
+            shape[x].type = -1
+            shape[x].set_shape(self._new_dot(
+                        self._colors[0]))
+            shape[x].set_label(text[i])
+            shape[x].set_layer(100)
+            i += 1
 
     def _set_label(self, string):
         ''' Set the label in the toolbar or the window frame. '''
@@ -221,7 +312,9 @@ class Game():
                     return False
         self._set_label(_('good work'))
         self._smile()
-        GObject.timeout_add(2000, self.more_dots)
+        self.game_stop_time = time.time()
+        self.gameover_flag = True
+        GObject.timeout_add(2000, self.gameover)
         return True
 
     def _grid_to_dot(self, pos):
