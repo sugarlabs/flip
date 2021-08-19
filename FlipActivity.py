@@ -69,7 +69,7 @@ class FlipActivity(activity.Activity):
         self._collab.connect('joined', self._joined_cb)
         self._collab.setup()
 
-        if 'dotlist' in self.metadata:
+        if 'dotlist' in self.metadata and self._game.gameover_flag is False:
             self._restore()
         else:
             self._game.new_game()
@@ -119,7 +119,7 @@ class FlipActivity(activity.Activity):
 
     def write_file(self, file_path):
         """ Write the grid status to the Journal """
-        (dot_list, move_list) = self._game.save_game()
+        (dot_list, move_list, paused_time) = self._game.save_game()
         self.metadata['dotlist'] = ''
         for dot in dot_list:
             self.metadata['dotlist'] += str(dot)
@@ -131,6 +131,7 @@ class FlipActivity(activity.Activity):
             if move_list.index(move) < len(move_list) - 1:
                 self.metadata['movelist'] += ' '
         _logger.debug(self.metadata['movelist'])
+        self.metadata['paused_time'] = str(paused_time)
 
     def _restore(self):
         """ Restore the game state from metadata """
@@ -146,7 +147,11 @@ class FlipActivity(activity.Activity):
         else:
             move_list = None
         _logger.debug(move_list)
-        self._game.restore_game(dot_list, move_list)
+        if 'paused_time' in self.metadata:
+            paused_time = int(self.metadata['paused_time'])
+        else:
+            paused_time = 0
+        self._game.restore_game(dot_list, move_list, paused_time)
 
     # Collaboration-related methods
 
