@@ -15,6 +15,7 @@
 from gi.repository import Gdk, GdkPixbuf, Gtk, GObject
 import cairo
 
+import os
 from math import sqrt
 from random import uniform
 import time
@@ -30,6 +31,7 @@ except ImportError:
     GRID_CELL_SIZE = 0
 
 from sprites import Sprites, Sprite
+from sugar3.activity.activity import get_activity_root
 
 # Grid dimensions must be even
 MAX = 7
@@ -63,7 +65,9 @@ class Game():
         self.we_are_sharing = False
         self._edge = 4
         self._move_list = []
-        self.best_time = 0
+        self.best_time = self.load_best_time()
+        self.paused_time = 0
+        self.gameover_flag = None
 
         # Generate the sprites we'll need...
         self._sprites = Sprites(self._canvas)
@@ -121,7 +125,7 @@ class Game():
     def more_dots(self):
         ''' Enlarge the grid '''
         if self._edge < MAX:
-            self._edge += 1
+            self._edge += 0
         self._generate_grid()
         self.new_game()
 
@@ -139,7 +143,7 @@ class Game():
 
         self.game_start_time = time.time()
 
-    def restore_game(self, dot_list, move_list):
+    def restore_game(self, dot_list, move_list, paused_time):
         ''' Restore a game from the Journal or share '''
         edge = int(sqrt(len(dot_list)))
         if edge > MAX:
@@ -152,6 +156,8 @@ class Game():
                 self._colors[self._dots[i].type]))
         if move_list is not None:
             self._move_list = move_list[:]
+        self.game_start_time = time.time()
+        self.paused_time = paused_time
 
     def save_game(self):
         ''' Return dot list, move_list for saving to Journal or
@@ -159,14 +165,16 @@ class Game():
         dot_list = []
         for dot in self._dots:
             dot_list.append(dot.type)
-        return (dot_list, self._move_list)
+        self.game_stop_time = time.time()
+        paused_time = abs(int(self.game_stop_time - self.game_start_time))
+        return (dot_list, self._move_list, paused_time)
 
     def gameover(self):
 
         best_seconds = self.best_time % 60
         best_minutes = self.best_time // 60
-        self.elapsed_time = int(self.game_stop_time - self.game_start_time)
-        # self.elapsed_time = 10
+        self.elapsed_time = int(self.game_stop_time
+                                - self.game_start_time) + self.paused_time
         second = self.elapsed_time % 60
         minute = self.elapsed_time // 60
         for dot in self._dots:
@@ -215,9 +223,9 @@ class Game():
                        xoffset + (x + 0.25) * (self._dot_size - 10),
                        y * (self._dot_size - 20 + self._space) + yoffset,
                        self._new_dot(color=self._colors[0])))
-            self._best_time[-1].type = -1  # No image
+            self._best_time[-1].type = -1
             self._best_time[-1].set_label_attributes(72)
-        if self.elapsed_time <= self.best_time and not self.game_lost:
+        if self.elapsed_time <= self.best_time:
             self.best_time = self.elapsed_time
             best_seconds = second
             best_minutes = minute
@@ -227,7 +235,8 @@ class Game():
             (' {:02d}:{:02d} '.format(best_minutes, best_seconds))
         ]
         self.rings(len(text), text, self._best_time)
-        self._correct = 0
+        self.save_best_time()
+        self.paused_time = 0
         GObject.timeout_add(3000, self.more_dots)
 
     def rings(self, num, text, shape):
@@ -325,10 +334,6 @@ class Game():
         ''' calculate the grid column and row for a dot '''
         return [dot % self._edge, int(dot / self._edge)]
 
-    def game_over(self, msg=_('Game over')):
-        ''' Nothing left to do except show the results. '''
-        self._set_label(msg)
-
     def __draw_cb(self, canvas, cr):
         self._sprites.redraw_sprites(cr=cr)
 
@@ -383,6 +388,32 @@ class Game():
 
     def _footer(self):
         return '</svg>\n'
+
+    def read_best_time(self):
+        best_time = [180]
+        file_path = os.path.join(get_activity_root(), 'data', 'best-time')
+        if os.path.exists(file_path):
+            with open(file_path, "r") as fp:
+                best_time = fp.readlines()
+        return int(best_time[0])
+
+    def save_best_time(self):
+        file_path = os.path.join(get_activity_root(), 'data', 'best-time')
+        int_best_time = self.read_best_time()
+
+        if not int_best_time <= self.elapsed_time:
+            int_best_time = self.elapsed_time
+        with open(file_path, "w") as fp:
+            fp.write(str(int_best_time))
+
+    def load_best_time(self):
+        best_time = self.read_best_time()
+        try:
+            return best_time
+        except (ValueError, IndexError) as e:
+            logging.exception(e)
+            return 0
+        return 0
 
 
 def svg_str_to_pixbuf(svg_string):
