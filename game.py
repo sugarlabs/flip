@@ -16,9 +16,9 @@ from gi.repository import Gdk, GdkPixbuf, Gtk, GObject
 import cairo
 
 import os
+import time
 from math import sqrt
 from random import uniform
-import time
 from gettext import gettext as _
 
 import logging
@@ -37,6 +37,7 @@ from sugar3.activity.activity import get_activity_root
 MAX = 7
 WHITE = 2
 DOT_SIZE = 80
+MAX_COUNT = 3
 
 
 class Game():
@@ -68,6 +69,7 @@ class Game():
         self.best_time = self.load_best_time()
         self.paused_time = 0
         self.gameover_flag = None
+        self.count = 1
 
         # Generate the sprites we'll need...
         self._sprites = Sprites(self._canvas)
@@ -75,6 +77,7 @@ class Game():
         self._gameover = []
         self._your_time = []
         self._best_time = []
+        self._levelup = []
         self._generate_grid()
 
     def _generate_grid(self):
@@ -118,14 +121,21 @@ class Game():
             dot.set_shape(self._new_dot(self._colors[0]))
             dot.set_label('')
             dot.set_layer(100)
+        if self.count > MAX_COUNT:
+            for levelup_shape in self._levelup:
+                levelup_shape.hide()
 
     def _initiating(self):
         return self._activity._collab.props.leader
 
     def more_dots(self):
         ''' Enlarge the grid '''
-        if self._edge < MAX:
-            self._edge += 0
+        self.count += 1
+        if self._edge < MAX and self.count > MAX_COUNT:
+            self._edge += 1
+            self.count = 0
+        else:
+            self._edge = 4
         self._generate_grid()
         self.new_game()
 
@@ -170,9 +180,8 @@ class Game():
         return (dot_list, self._move_list, paused_time)
 
     def gameover(self):
-
-        best_seconds = self.best_time % 60
-        best_minutes = self.best_time // 60
+        best_seconds = (self.best_time[self._edge-4]) % 60
+        best_minutes = (self.best_time[self._edge-4]) // 60
         self.elapsed_time = int(self.game_stop_time
                                 - self.game_start_time) + self.paused_time
         second = self.elapsed_time % 60
@@ -183,7 +192,6 @@ class Game():
         xoffset = int((self._width - 6 * self._dot_size -
                        5 * self._space) / 2.)
         y = 1
-        i = 0
         for x in range(2, 6):
             self._gameover.append(
                 Sprite(self._sprites,
@@ -192,7 +200,6 @@ class Game():
                        self._new_dot(color=self._colors[0])))
             self._gameover[-1].type = -1  # No image
             self._gameover[-1].set_label_attributes(72)
-            i += 1
         text = [
             "☻",
             "  Game  ",
@@ -225,8 +232,8 @@ class Game():
                        self._new_dot(color=self._colors[0])))
             self._best_time[-1].type = -1
             self._best_time[-1].set_label_attributes(72)
-        if self.elapsed_time <= self.best_time:
-            self.best_time = self.elapsed_time
+            if self.elapsed_time <= self.best_time[self._edge-4]:
+                self.best_time[self._edge-4] = self.elapsed_time
             best_seconds = second
             best_minutes = minute
         text = [
@@ -235,6 +242,24 @@ class Game():
             (' {:02d}:{:02d} '.format(best_minutes, best_seconds))
         ]
         self.rings(len(text), text, self._best_time)
+
+        if self.count == MAX_COUNT:
+            y = 4
+            for x in range(2, 6):
+                self._levelup.append(
+                    Sprite(self._sprites,
+                           xoffset + (x - 0.25) * (self._dot_size - 10),
+                           y * (self._dot_size - 10 + self._space) + yoffset,
+                           self._new_dot(color=self._colors[0])))
+                self._levelup[-1].type = -1  # No image
+                self._levelup[-1].set_label_attributes(72)
+            text = [
+                "☻",
+                "  Level  ",
+                "  Up!  ",
+                "☻"
+            ]
+            self.rings(len(text), text, self._levelup)
         self.save_best_time()
         self.paused_time = 0
         GObject.timeout_add(3000, self.more_dots)
@@ -390,30 +415,41 @@ class Game():
         return '</svg>\n'
 
     def read_best_time(self):
-        best_time = [180]
-        file_path = os.path.join(get_activity_root(), 'data', 'best-time')
+        best_time = [180, 180, 180, 180]
+        file_path = os.path.join(get_activity_root(), 'data', 'Best-time')
         if os.path.exists(file_path):
             with open(file_path, "r") as fp:
-                best_time = fp.readlines()
-        return int(best_time[0])
+                best_time = fp.readline()
+        return best_time
 
     def save_best_time(self):
-        file_path = os.path.join(get_activity_root(), 'data', 'best-time')
-        int_best_time = self.read_best_time()
-
-        if not int_best_time <= self.elapsed_time:
-            int_best_time = self.elapsed_time
+        file_path = os.path.join(get_activity_root(), 'data', 'Best-time')
+        best_time = self.read_best_time()
+        if type(best_time) is str:
+            best_time = self.convert_to_int_list(best_time)
+        if not best_time[self._edge-4] <= self.elapsed_time:
+            best_time[self._edge-4] = self.elapsed_time
         with open(file_path, "w") as fp:
-            fp.write(str(int_best_time))
+            fp.write(str(best_time))
 
     def load_best_time(self):
         best_time = self.read_best_time()
+        if type(best_time) is str:
+            best_time = self.convert_to_int_list(best_time)
         try:
             return best_time
         except (ValueError, IndexError) as e:
             logging.exception(e)
             return 0
         return 0
+
+    def convert_to_int_list(self, str_data):
+        list_str = str_data
+        list_int = []
+        temp = ((list_str.split("]"))[0].split("["))[1].split(", ")
+        for i in range(0, len(temp)):
+            list_int.append(int(temp[i]))
+        return list_int
 
 
 def svg_str_to_pixbuf(svg_string):
