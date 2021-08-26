@@ -121,7 +121,7 @@ class Game():
             dot.set_shape(self._new_dot(self._colors[0]))
             dot.set_label('')
             dot.set_layer(100)
-        if self.count > MAX_COUNT:
+        if self.count == 0:
             for levelup_shape in self._levelup:
                 levelup_shape.hide()
 
@@ -234,8 +234,8 @@ class Game():
             self._best_time[-1].set_label_attributes(72)
             if self.elapsed_time <= self.best_time[self._edge-4]:
                 self.best_time[self._edge-4] = self.elapsed_time
-            best_seconds = second
-            best_minutes = minute
+                best_seconds = second
+                best_minutes = minute
         text = [
             "  best  ",
             " time:  ",
@@ -416,16 +416,16 @@ class Game():
 
     def read_best_time(self):
         best_time = [180, 180, 180, 180]
-        file_path = os.path.join(get_activity_root(), 'data', 'Best-time')
+        file_path = os.path.join(get_activity_root(), 'data', 'Best-tim')
         if os.path.exists(file_path):
             with open(file_path, "r") as fp:
                 best_time = fp.readline()
         return best_time
 
     def save_best_time(self):
-        file_path = os.path.join(get_activity_root(), 'data', 'Best-time')
+        file_path = os.path.join(get_activity_root(), 'data', 'Best-tim')
         best_time = self.read_best_time()
-        if type(best_time) is str:
+        if isinstance(best_time, str):
             best_time = self.convert_to_int_list(best_time)
         if not best_time[self._edge-4] <= self.elapsed_time:
             best_time[self._edge-4] = self.elapsed_time
@@ -434,7 +434,7 @@ class Game():
 
     def load_best_time(self):
         best_time = self.read_best_time()
-        if type(best_time) is str:
+        if isinstance(best_time, str):
             best_time = self.convert_to_int_list(best_time)
         try:
             return best_time
@@ -444,11 +444,12 @@ class Game():
         return 0
 
     def convert_to_int_list(self, str_data):
-        list_str = str_data
         list_int = []
-        temp = ((list_str.split("]"))[0].split("["))[1].split(", ")
-        for i in range(0, len(temp)):
+        str_data = str_data[1:len(str_data)-1]
+        temp = str_data.split(", ")
+        for i in range(len(temp)):
             list_int.append(int(temp[i]))
+        print("list: ", list_int)
         return list_int
 
 
