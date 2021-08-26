@@ -449,7 +449,6 @@ class Game():
         temp = str_data.split(", ")
         for i in range(len(temp)):
             list_int.append(int(temp[i]))
-        print("list: ", list_int)
         return list_int
 
 
