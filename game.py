@@ -445,10 +445,9 @@ class Game():
 
     def convert_to_int_list(self, str_data):
         list_int = []
-        str_data = str_data[1:len(str_data)-1]
-        temp = str_data.split(", ")
-        for i in range(len(temp)):
-            list_int.append(int(temp[i]))
+        str_data = str_data[1:len(str_data)-1].split(", ")
+        for i in range(len(str_data)):
+            list_int.append(int(str_data[i]))
         return list_int
 
 
