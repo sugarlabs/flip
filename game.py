@@ -416,14 +416,14 @@ class Game():
 
     def read_best_time(self):
         best_time = [180, 180, 180, 180]
-        file_path = os.path.join(get_activity_root(), 'data', 'best-time')
+        file_path = os.path.join(get_activity_root(), 'data', 'save_best_time')
         if os.path.exists(file_path):
             with open(file_path, "r") as fp:
                 best_time = fp.readline()
         return best_time
 
     def save_best_time(self):
-        file_path = os.path.join(get_activity_root(), 'data', 'best-time')
+        file_path = os.path.join(get_activity_root(), 'data', 'save_best_time')
         best_time = self.read_best_time()
         if isinstance(best_time, str):
             best_time = self.convert_to_int_list(best_time)
