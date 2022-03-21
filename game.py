@@ -84,15 +84,17 @@ class Game():
             for x in range(self._edge):
                 xoffset = int((self._width - self._edge * self._dot_size -
                                (self._edge - 1) * self._space) / 2.)
+                yoffset = int((self._height - self._edge * self._dot_size -
+                               (self._edge - 1) * self._space) / 2.)
                 if i < len(self._dots):
                     self._dots[i].move(
                         (xoffset + x * (self._dot_size + self._space),
-                         y * (self._dot_size + self._space)))
+                         yoffset + y * (self._dot_size + self._space)))
                 else:
                     self._dots.append(
                         Sprite(self._sprites,
                                xoffset + x * (self._dot_size + self._space),
-                               y * (self._dot_size + self._space),
+                               yoffset + y * (self._dot_size + self._space),
                                self._new_dot(self._colors[0])))
                 self._dots[i].type = 0
                 self._dots[-1].set_label_attributes(40)
