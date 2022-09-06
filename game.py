@@ -125,9 +125,9 @@ class Game():
     def _initiating(self):
         return self._activity._collab.props.leader
 
-    def more_dots(self, size=None):
+    def more_dots(self, size=0):
         ''' Enlarge the grid '''
-        if size is not None:
+        if size > 0:
             self._edge = size
         if self._edge > MAX:
             self._edge = MAX
