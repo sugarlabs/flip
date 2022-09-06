@@ -24,7 +24,7 @@ from sugar3.graphics.toolbarbox import ToolbarBox
 from sugar3.activity.widgets import ActivityToolbarButton
 from sugar3.activity.widgets import StopButton
 
-from toolbar_utils import button_factory, label_factory, separator_factory
+from toolbar_utils import button_factory, label_factory, separator_factory, radio_factory
 
 from collabwrapper import CollabWrapper
 
@@ -97,6 +97,32 @@ class FlipActivity(activity.Activity):
 
         self.status = label_factory(self.toolbar, '')
 
+        separator_factory(self.toolbar, False, True)
+
+        self.small_button = radio_factory(
+            'small',
+            self.toolbar,
+            self._gridsize_cb,
+            cb_arg=4,
+            tooltip="Small Grid",
+            group=None)
+
+        self.medium_button = radio_factory(
+            'medium',
+            self.toolbar,
+            self._gridsize_cb,
+            cb_arg=5,
+            tooltip="Medium Grid",
+            group=self.small_button)
+
+        self.large_button = radio_factory(
+            'large',
+            self.toolbar,
+            self._gridsize_cb,
+            cb_arg=6,
+            tooltip="Large Grid",
+            group=self.small_button)
+
         separator_factory(toolbox.toolbar, True, False)
 
         self.solver = button_factory(
@@ -108,6 +134,10 @@ class FlipActivity(activity.Activity):
         stop_button.props.accelerator = '<Ctrl>q'
         toolbox.toolbar.insert(stop_button, -1)
         stop_button.show()
+
+    def _gridsize_cb(self, button, size):
+        self._game.size = size
+        self._game.more_dots(size)
 
     def _new_game_cb(self, button=None):
         ''' Start a new game. '''

@@ -35,7 +35,6 @@ from sugar3.activity.activity import get_activity_root
 
 # Grid dimensions must be even
 MAX = 7
-WHITE = 2
 DOT_SIZE = 80
 
 
@@ -80,6 +79,8 @@ class Game():
     def _generate_grid(self):
         ''' Make a new set of dots for a grid of size edge '''
         i = 0
+        self._sprites = Sprites(self._canvas)
+        self._dots = []
         for y in range(self._edge):
             for x in range(self._edge):
                 xoffset = int((self._width - self._edge * self._dot_size -
@@ -124,10 +125,12 @@ class Game():
     def _initiating(self):
         return self._activity._collab.props.leader
 
-    def more_dots(self):
+    def more_dots(self, size=None):
         ''' Enlarge the grid '''
-        if self._edge < MAX:
-            self._edge += 0
+        if size is not None:
+            self._edge = size
+        if self._edge > MAX:
+            self._edge = MAX
         self._generate_grid()
         self.new_game()
 
@@ -150,8 +153,7 @@ class Game():
         edge = int(sqrt(len(dot_list)))
         if edge > MAX:
             edge = MAX
-        while self._edge < edge:
-            self.more_dots()
+        self.more_dots(edge)
         for i, dot in enumerate(dot_list):
             self._dots[i].type = dot
             self._dots[i].set_shape(self._new_dot(
