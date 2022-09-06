@@ -6,13 +6,13 @@ Flip activity is a simple strategy game where you flip "coins" in order to get a
 How to use?
 ===========
 
-Flip activity is not part of the Sugar desktop but is often included.  Please refer to;
+Flip activity is not part of the Sugar desktop but is often included. Please refer to;
 
 * [How to Get Sugar on sugarlabs.org](https://sugarlabs.org/),
 * [How to use Sugar](https://help.sugarlabs.org/), and;
 * [How to use Flip](https://wiki.sugarlabs.org/go/Activities/Flip).
 
-<img src="screenshots/en/1.png" width="75%" title="Flip Activity">
+<img src="screenshots/en/1.jpg" width="75%" title="Flip Activity">
 
 How to upgrade?
 ===============
