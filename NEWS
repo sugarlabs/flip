@@ -1,5 +1,10 @@
 NEWS
 
+11
+* Add difficulty options to very size of grid (Sparsh Goenka)
+* Center the coins vertically (Sparsh Goenka)
+* Add gameover page and timer (Sourabha G)
+
 10
 * New translations (Robert Antoni, Chris Leonard et al)
 * Set PEP8 and fix flake 8 opportunities (Rahul Bothra)
