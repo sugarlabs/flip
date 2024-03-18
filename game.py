@@ -76,6 +76,8 @@ class Game():
         self._best_time = []
         self._generate_grid()
 
+        self._flips = 0
+
     def _generate_grid(self):
         ''' Make a new set of dots for a grid of size edge '''
         i = 0
@@ -283,6 +285,7 @@ class Game():
 
     def _flip_them(self, dot, append=True):
         ''' flip the dot and its neighbors '''
+        self._flips += 1
         if append:
             self._move_list.append(dot)
         x, y = self._dot_to_grid(dot)
@@ -328,6 +331,7 @@ class Game():
         self.game_stop_time = time.time()
         self.gameover_flag = True
         GObject.timeout_add(2000, self.gameover)
+        self._set_label("Flips: {}".format(self._flips // 2))
         return True
 
     def _grid_to_dot(self, pos):
