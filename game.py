@@ -46,7 +46,7 @@ class Game():
         self._colors.append(colors[1])
         self._colors.append('#D0D0D0')
         self._colors.append('#000000')
-
+        self._flip_counter = 0
         self._canvas = canvas
         if parent is not None:
             parent.show_all()
@@ -283,6 +283,8 @@ class Game():
 
     def _flip_them(self, dot, append=True):
         ''' flip the dot and its neighbors '''
+        # Increment flip counter
+        self._flip_counter += 1
         if append:
             self._move_list.append(dot)
         x, y = self._dot_to_grid(dot)
@@ -328,6 +330,7 @@ class Game():
         self.game_stop_time = time.time()
         self.gameover_flag = True
         GObject.timeout_add(2000, self.gameover)
+        self._set_label("Flips: {}".format(self._flip_counter//2))
         return True
 
     def _grid_to_dot(self, pos):
