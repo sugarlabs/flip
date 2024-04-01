@@ -81,7 +81,6 @@ class Game():
     def _generate_grid(self):
         ''' Make a new set of dots for a grid of size edge '''
         i = 0
-        self._sprites = Sprites(self._canvas)
         self._dots = []
         for y in range(self._edge):
             for x in range(self._edge):
