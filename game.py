@@ -140,6 +140,19 @@ class Game():
         ''' Start a new game. '''
         self._all_clear()
         self.gameover_flag = False
+
+        for gameover_shape in self._gameover:
+            gameover_shape.hide()
+        for your_time_shape in self._your_time:
+            your_time_shape.hide()
+        for best_time_shape in self._best_time:
+            best_time_shape.hide()
+
+        # Clear the lists to reset the game.
+        self._gameover = []
+        self._your_time = []
+        self._best_time = []
+
         # Fill in a few dots to start
         for i in range(MAX * 2):
             self._flip_them(int(uniform(0, self._edge * self._edge)))
