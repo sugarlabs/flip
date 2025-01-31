@@ -288,12 +288,39 @@ class Game():
                 _logger.debug('sending a click to the share')
                 self._parent.send_dot_click(self._dots.index(spr))
         return True
+    
+    def _create_transparent_dot(self, x, y):
+        """Create a transparent dot at the given position."""
+        transparent_color = '#FFFFFF80'
+        dot_size = self._dot_size // 4
+        dot = Sprite(self._sprites, x, y, self._new_dot(color=transparent_color, size=dot_size))
+        dot.set_layer(200)  # Ensure the dot is above other sprites
+        return dot
 
     def solve(self):
-        ''' Solve the puzzle by undoing moves '''
-        if self._move_list == []:
+        """Solve the puzzle by undoing moves."""
+        if not self._move_list:
             return
-        self._flip_them(self._move_list.pop(), append=False)
+
+        dot_index = self._move_list.pop()
+
+        tile_x = self._dots[dot_index].rect[0]
+        tile_y = self._dots[dot_index].rect[1]
+        center_x = tile_x + self._dot_size // 2
+        center_y = tile_y + self._dot_size // 2
+
+        dot_size = self._dot_size // 4
+        dot_x = center_x - dot_size // 2
+        dot_y = center_y - dot_size // 2
+
+        # Display a transparent dot at the calculated position
+        transparent_dot = self._create_transparent_dot(dot_x, dot_y)
+
+        # Flip the tile
+        self._flip_them(dot_index, append=False)
+
+        # Remove the transparent dot after a short delay
+        GObject.timeout_add(500, transparent_dot.hide)
         GObject.timeout_add(750, self.solve)
 
     def _flip_them(self, dot, append=True):
@@ -371,22 +398,27 @@ class Game():
     def _destroy_cb(self, win, event):
         Gtk.main_quit()
 
-    def _new_dot(self, color):
-        ''' generate a dot of a color color '''
-        self._dot_cache = {}
+    def _new_dot(self, color, size=None):
+        """Generate a dot of a given color and size."""
+        # Assign a default size if none is provided
+        if size is None:
+            size = self._dot_size
+
+        # Use a cache to avoid recreating the same dot multiple times
+        if not hasattr(self, '_dot_cache'):
+            self._dot_cache = {}
+
         if color not in self._dot_cache:
             self._stroke = color
             self._fill = color
-            self._svg_width = self._dot_size
-            self._svg_height = self._dot_size
+            self._svg_width = size
+            self._svg_height = size
             pixbuf = svg_str_to_pixbuf(
                 self._header() +
-                self._circle(self._dot_size / 2., self._dot_size / 2.,
-                             self._dot_size / 2.) +
+                self._circle(size / 2., size / 2., size / 2.) +
                 self._footer())
 
-            surface = cairo.ImageSurface(cairo.FORMAT_ARGB32,
-                                         self._svg_width, self._svg_height)
+            surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, self._svg_width, self._svg_height)
             context = cairo.Context(surface)
             Gdk.cairo_set_source_pixbuf(context, pixbuf, 0, 0)
             context.rectangle(0, 0, self._svg_width, self._svg_height)
